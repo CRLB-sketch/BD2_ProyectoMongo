@@ -6,8 +6,8 @@ const Post = require('../models/postModel');
 // @route   GET /api/posts
 // @access  Public
 const getAllPosts = asyncHandler(async (req, res) => {
-  const posts = await VTTRegion.find();
-  res.status(200).json({ success: true, data: posts });
+  const posts = await Post.find();
+  res.status(200).json(posts);
 });
 
 // @desc    Update Post
@@ -32,22 +32,20 @@ const updatePost = asyncHandler(async (req, res) => {
 // @route   POST /api/posts
 // @access  Private
 const setPost = asyncHandler(async (req, res) => {
-  const {
-    user_name_id,
-    date,
-    title,
-    content,
-    tags,
-    multimedia,
-    likes,
-    comments,
-  } = req.body;
+  const { user_name_id, title, content, tags, multimedia, likes, comments } =
+    req.body;
 
   if (!content || !user_name_id) {
     res.status(400);
     throw new Error('Please add content and/or user_name');
   }
 
+  // Check if content is empty
+  if (/^\s*$/.test(content)) {
+    throw new Error('The content is empty ');
+  }
+
+  const date = new Date();
   const post = await Post.create({
     user_name_id: user_name_id,
     date: date,

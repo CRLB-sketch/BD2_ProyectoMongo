@@ -10,11 +10,12 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Add password'],
     },
-    posts: [mongoose.Schema.Types.ObjectId],
     profile_img: {
+      // Changue this structure of img for support GridFS
       data: Buffer,
       contentType: String,
     },
+    favorite_posts: [mongoose.Schema.Types.ObjectId],
   },
   {
     timestamps: true,
