@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import LoginIcon from '@mui/icons-material/Login';
 
 const Login = () => {
 
@@ -8,7 +9,7 @@ const Login = () => {
         username: "",
         password: ""
     });
-    
+
     const handleInputChange = (e) => {
         setInputs((prevState) => ({
             ...prevState,
@@ -75,14 +76,14 @@ const Login = () => {
                     type="submit"
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
-                    onClick
+                    endIcon={<LoginIcon />}
                 >
                     Login
                 </Button>
 
                 <Button 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, marginTop: 3, borderRadius:2}}
-                    onClick = {() => console.log("Register")}
+                    onClick={() => {window.location.href = "./Register"}}
                 >
                     ¿No tienes cuenta? Registrate
                 </Button>

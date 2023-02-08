@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+
 
 const Register = () => {
 
@@ -80,13 +82,14 @@ const Register = () => {
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
                     type="submit"
+                    endIcon={<HowToRegIcon />}
                 >
                     Registrate
                 </Button>
 
                 <Button 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, marginTop: 3, borderRadius:2}}
-                    onClick={() => console.log("Login")}
+                    onClick={() => {window.location.href = "./Login"}}
                 >
                     ¿Ya tienes cuenta? Inicia sesión
                 </Button>
