@@ -84,7 +84,9 @@ const Register = () => {
                     variant="outlined" 
                     margin="normal"
                 />
+                <br/>
                 <input type={"file"} name = "file" onChange={handleFileChange}/>
+                <br/>
                 <Button 
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
