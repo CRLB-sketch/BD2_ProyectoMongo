@@ -12,6 +12,12 @@ const Register = () => {
         confirmPassword: ""
     });
 
+    const [file, setFile] = useState('');
+    function handleFileChange(e) {
+        setFile(e.target.files[0]);
+        console.log(file);
+    }
+
     const handleInputChange = (e) => {
         setInputs((prevState) => ({
             ...prevState,
@@ -78,6 +84,7 @@ const Register = () => {
                     variant="outlined" 
                     margin="normal"
                 />
+                <input type={"file"} name = "file" onChange={handleFileChange}/>
                 <Button 
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
