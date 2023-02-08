@@ -31,6 +31,7 @@ const Register = () => {
         }
         console.log(inputs);
     }
+    //<input type={"file"} name = "file" onChange={handleFileChange}/>
 
     return(
         <div>
@@ -84,9 +85,18 @@ const Register = () => {
                     variant="outlined" 
                     margin="normal"
                 />
-                <br/>
-                <input type={"file"} name = "file" onChange={handleFileChange}/>
-                <br/>
+                <Button 
+                    margin="normal"
+                    component = "label"
+                    sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
+                    onClick={handleFileChange}
+                >
+                    
+                    <input 
+                        type={"file"} 
+                        
+                    />
+                </Button>
                 <Button 
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
