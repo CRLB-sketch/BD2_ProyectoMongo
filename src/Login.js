@@ -8,9 +8,7 @@ const Login = () => {
         username: "",
         password: ""
     });
-
     
-
     const handleInputChange = (e) => {
         setInputs((prevState) => ({
             ...prevState,
@@ -84,7 +82,7 @@ const Login = () => {
 
                 <Button 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, marginTop: 3, borderRadius:2}}
-                    
+                    onClick = {() => console.log("Register")}
                 >
                     ¿No tienes cuenta? Registrate
                 </Button>
