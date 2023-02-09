@@ -1,11 +1,28 @@
-import './App.css';
+import './App.css'
+import React, { useState } from 'react'
+import Login from './Login';
+// import Register from './Register';
+// import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
+
+  const [token, setToken] = useState()
+
+  if(!token){
+    return(
+      <Login setToken={setToken}/>
+    )    
+  }
+  
   return (
+
     <div className="App">
-      <header className="App-header">
-        <h1>Proyect 1 - Mongod DB</h1>
-      </header>
+      {/* <BrowserRouter>
+        <Route path="/register">
+          <Register />
+        </Route>        
+      </BrowserRouter> */}
+      <h1>Bienvenido jaja</h1>
     </div>
   );
 }
