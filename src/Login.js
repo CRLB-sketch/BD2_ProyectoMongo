@@ -3,10 +3,24 @@ import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 
-const Login = () => {
+const loginUser = async (credentials) => {
+    return fetch('http://localhost:8000/api/users/login', {
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(credentials)
+    }).then((response) => response.json())
+    .then((result) => {
+        return result
+    })
+    .catch(error => { return error})
+}
+
+const Login = ({setToken}) => {
 
     const [inputs, setInputs] = useState({
-        username: "",
+        user_name: "",
         password: ""
     });
 
@@ -17,11 +31,13 @@ const Login = () => {
         })); 
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         if (event) {
             event.preventDefault();
         }
-        console.log(inputs);
+
+        const result = await loginUser(inputs)
+        setToken(result)
     }
 
 
@@ -54,8 +70,8 @@ const Login = () => {
                 
                 <TextField 
                     type={"text"} 
-                    name="username"
-                    value={inputs.username}
+                    name="user_name"
+                    value={inputs.user_name}
                     onChange={handleInputChange}
                     label="Username" 
                     variant="outlined" 
