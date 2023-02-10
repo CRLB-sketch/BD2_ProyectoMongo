@@ -3,6 +3,19 @@ import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 
+const createUser = async (credentials) => {
+    return fetch('http://localhost:8000/api/users/create', {
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(credentials)
+    }).then((response) => response.json())
+    .then((result) => {
+        return result
+    })
+    .catch(error => { return error})
+}
 
 const Register = ({setToken, setReady}) => {
 
@@ -25,7 +38,7 @@ const Register = ({setToken, setReady}) => {
         })); 
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         if (event) {
             event.preventDefault();
         }
@@ -37,9 +50,12 @@ const Register = ({setToken, setReady}) => {
         }
 
         // Se va a verificar si el usuario es valido jaja
-        
-
-        console.log("Todo bien")
+        const result = await createUser(inputs)
+        if(result.user_name === undefined){
+            console.log("Error con user ya exitente")
+            return
+        }
+        setToken(result)
     }
 
     return(

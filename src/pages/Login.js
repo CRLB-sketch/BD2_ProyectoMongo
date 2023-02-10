@@ -37,7 +37,6 @@ const Login = ({setToken, setReady}) => {
         }
 
         const result = await loginUser(inputs)
-        console.log(result)
         if(result._id === undefined){
             console.log("Error") // Quiero detectar el bad request jaja
             return
