@@ -1,28 +1,22 @@
 import React from "react";
 import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import LoginIcon from '@mui/icons-material/Login';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
-const loginUser = async (credentials) => {
-    return fetch('http://localhost:8000/api/users/login', {
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(credentials)
-    }).then((response) => response.json())
-    .then((result) => {
-        return result
-    })
-    .catch(error => { return error})
-}
 
-const Login = ({setToken}) => {
+const Register = ({setToken, setReady}) => {
 
     const [inputs, setInputs] = useState({
         user_name: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     });
+
+    const [file, setFile] = useState('');
+    function handleFileChange(e) {
+        setFile(e.target.files[0]);
+        console.log(file);
+    }
 
     const handleInputChange = (e) => {
         setInputs((prevState) => ({
@@ -31,19 +25,26 @@ const Login = ({setToken}) => {
         })); 
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         if (event) {
             event.preventDefault();
         }
 
-        const result = await loginUser(inputs)
-        setToken(result)
-    }
+        // Verificar que las constraseñas coincidan
+        if(inputs.password !== inputs.confirmPassword){
+            console.log("Contraseñas invalidas")
+            return
+        }
 
+        // Se va a verificar si el usuario es valido jaja
+        
+
+        console.log("Todo bien")
+    }
 
     return(
         <div>
-            <form onSubmit={handleSubmit}> 
+            <form onSubmit={handleSubmit}>
             <Box 
                 display="flex" 
                 flexDirection={"column"} 
@@ -57,51 +58,68 @@ const Login = ({setToken}) => {
                 boxShadow={"5px 5px 10px  #ccc"}
                 sx={{":hover": {boxShadow: "15px 15px 30px  #ccc"}}}
             >
-
-                <Typography 
+                <Typography
                     variant="h3" 
                     padding={5} 
                     textAlign = "center"
                     color={'secondary.main'}
                     fontFamily={"Monospace"}
                 >
-                    Login
+                    Register
                 </Typography>
-                
                 <TextField 
                     type={"text"} 
+                    label="Username" 
                     name="user_name"
                     value={inputs.user_name}
                     onChange={handleInputChange}
-                    label="Username" 
                     variant="outlined" 
                     margin="normal"
                 />
-                
                 <TextField 
                     type={"password"} 
+                    label="Password" 
                     name="password"
                     value={inputs.password}
                     onChange={handleInputChange}
-                    label="Password" 
                     variant="outlined" 
                     margin="normal"
                 />
-                
+                <TextField 
+                    type={"password"} 
+                    label="Confirm Password" 
+                    name="confirmPassword"
+                    value={inputs.confirmPassword}
+                    onChange={handleInputChange}
+                    variant="outlined" 
+                    margin="normal"
+                />
                 <Button 
-                    type="submit"
+                    margin="normal"
+                    component = "label"
+                    sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
+                    onClick={handleFileChange}
+                >
+                    
+                    <input 
+                        type={"file"} 
+                        
+                    />
+                </Button>
+                <Button 
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
-                    endIcon={<LoginIcon />}
+                    type="submit"
+                    endIcon={<HowToRegIcon />}
                 >
-                    Login
+                    Registrate
                 </Button>
 
                 <Button 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, marginTop: 3, borderRadius:2}}
-                    onClick={() => {window.location.href = "./Register"}}
+                    onClick={() => setReady(0)}
                 >
-                    ¿No tienes cuenta? Registrate
+                    ¿Ya tienes cuenta? Inicia sesión
                 </Button>
 
             </Box>
@@ -110,4 +128,4 @@ const Login = ({setToken}) => {
     ); 
 };
 
-export default Login;
+export default Register;

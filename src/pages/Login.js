@@ -1,22 +1,28 @@
 import React from "react";
 import { useState } from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LoginIcon from '@mui/icons-material/Login';
 
+const loginUser = async (credentials) => {
+    return fetch('http://localhost:8000/api/users/login', {
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(credentials)
+    }).then((response) => response.json())
+    .then((result) => {
+        return result
+    })
+    .catch(error => { return error})
+}
 
-const Register = () => {
+const Login = ({setToken, setReady}) => {
 
     const [inputs, setInputs] = useState({
-        username: "",
-        password: "",
-        confirmPassword: ""
+        user_name: "",
+        password: ""
     });
-
-    const [file, setFile] = useState('');
-    function handleFileChange(e) {
-        setFile(e.target.files[0]);
-        console.log(file);
-    }
 
     const handleInputChange = (e) => {
         setInputs((prevState) => ({
@@ -25,17 +31,23 @@ const Register = () => {
         })); 
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         if (event) {
             event.preventDefault();
         }
-        console.log(inputs);
+
+        const result = await loginUser(inputs)
+        console.log(result)
+        if(result._id === undefined){
+            console.log("Error") // Quiero detectar el bad request jaja
+            return
+        }        
+        setToken(result)
     }
-    //<input type={"file"} name = "file" onChange={handleFileChange}/>
 
     return(
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}> 
             <Box 
                 display="flex" 
                 flexDirection={"column"} 
@@ -49,68 +61,51 @@ const Register = () => {
                 boxShadow={"5px 5px 10px  #ccc"}
                 sx={{":hover": {boxShadow: "15px 15px 30px  #ccc"}}}
             >
-                <Typography
+
+                <Typography 
                     variant="h3" 
                     padding={5} 
                     textAlign = "center"
                     color={'secondary.main'}
                     fontFamily={"Monospace"}
                 >
-                    Register
+                    Login
                 </Typography>
+                
                 <TextField 
                     type={"text"} 
-                    label="Username" 
-                    name="username"
-                    value={inputs.username}
+                    name="user_name"
+                    value={inputs.user_name}
                     onChange={handleInputChange}
+                    label="Username" 
                     variant="outlined" 
                     margin="normal"
                 />
+                
                 <TextField 
                     type={"password"} 
-                    label="Password" 
                     name="password"
                     value={inputs.password}
                     onChange={handleInputChange}
+                    label="Password" 
                     variant="outlined" 
                     margin="normal"
                 />
-                <TextField 
-                    type={"password"} 
-                    label="Confirm Password" 
-                    name="confirmPassword"
-                    value={inputs.confirmPassword}
-                    onChange={handleInputChange}
-                    variant="outlined" 
-                    margin="normal"
-                />
+                
                 <Button 
-                    margin="normal"
-                    component = "label"
-                    sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
-                    onClick={handleFileChange}
-                >
-                    
-                    <input 
-                        type={"file"} 
-                        
-                    />
-                </Button>
-                <Button 
+                    type="submit"
                     variant="contained" 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, margin: 1, borderRadius:2}}
-                    type="submit"
-                    endIcon={<HowToRegIcon />}
+                    endIcon={<LoginIcon />}
                 >
-                    Registrate
+                    Login
                 </Button>
 
                 <Button 
                     sx={{":hover": {boxShadow: "7px 7px 15px  #bbb"}, marginTop: 3, borderRadius:2}}
-                    onClick={() => {window.location.href = "./Login"}}
+                    onClick={() => setReady(1)}
                 >
-                    ¿Ya tienes cuenta? Inicia sesión
+                    ¿No tienes cuenta? Registrate
                 </Button>
 
             </Box>
@@ -119,4 +114,4 @@ const Register = () => {
     ); 
 };
 
-export default Register;
+export default Login;
