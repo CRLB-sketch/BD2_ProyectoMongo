@@ -105,9 +105,42 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json({ messsge: 'Usuario borrado' });
 });
 
+// @desc    Changue Profile Image
+// @route   POST /api/users/change-profile-img/:id
+// @access  Private
+const changeProfileImage = asyncHandler(async (req, res) => {
+  const { file } = req;
+  const { id } = file;
+
+  if (file.size > 5000000) {
+    deleteImage(id);
+    return res.status(400).send('file may not exceed 5mb');
+  }
+
+  const user = await User.findById(req.params.id)
+
+  if (!user) {
+    res.status(400);
+    throw new Error('User not find');
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      profile_img: id,
+    },
+    {
+      new: true
+    }
+  )
+
+  res.status(200).json(updateUser)
+})
+
 module.exports = {
   createUser,
   loginUser,
   updateUser,
   deleteUser,
+  changeProfileImage,
 };

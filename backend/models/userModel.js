@@ -8,12 +8,11 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, 'Add password'],
+      required: [true, 'Password required'],
+      select: false,
     },
     profile_img: {
-      // Changue this structure of img for support GridFS
-      data: Buffer,
-      contentType: String,
+      type: String,
     },
     favorite_posts: [mongoose.Schema.Types.ObjectId],
   },
