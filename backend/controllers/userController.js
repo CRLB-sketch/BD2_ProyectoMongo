@@ -74,6 +74,9 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not find');
   }
 
+  // If the password exist to changue, will be encrypted
+  if(req.body.password !== undefined) req.body.password = md5(req.body.password)
+
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
