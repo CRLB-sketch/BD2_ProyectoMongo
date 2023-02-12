@@ -10,6 +10,14 @@ const getAllPosts = asyncHandler(async (req, res) => {
   res.status(200).json(posts);
 });
 
+// @desc    Get All Posts in Order 
+// @route   GET /api/posts/order
+// @access  Public
+const getPostsInOrder = asyncHandler(async (req, res) => {
+  const posts = await Post.find().sort({date: -1})
+  res.status(200).json(posts);
+});
+
 // @desc    Update Post
 // @route   PUT /api/posts/:id
 // @access  Private
@@ -78,6 +86,7 @@ const deletePost = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllPosts,
+  getPostsInOrder,
   setPost,
   updatePost,
   deletePost,
