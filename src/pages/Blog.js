@@ -5,7 +5,15 @@ import Header from './components/Header'
 import Post from './components/Post'
 import { Box, Typography, TextField, Button, Fab, } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import NavigationIcon from '@mui/icons-material/Navigation';
 import { borderColor } from "@mui/system";
+
+
+
+const createPost = ({}) => ({
+
+})
+
 
 const Blog = ({user}) => {
     const [posts, setPosts] = useState(null)
@@ -20,17 +28,22 @@ const Blog = ({user}) => {
         
         <div>
             <Header user={user}/>
-            <h1>asd</h1>
-            <div id="poster">
             
+            <div id="poster">
+            <form onSubmit={createPost}>
             <Box
             display="flex" 
             flexDirection={"column"} 
+            maxWidth="45%" 
             alignItems ="center" 
             justifyContent={"center"} 
+            margin="auto" 
+            marginTop={10}
+            padding={10}
+            borderRadius={5}
+            boxShadow={"5px 5px 10px  #ccc"}
             sx={{
-                width: "30%",
-                height: 300,
+                height: "25%",
                 backgroundColor: 'white',
                 padding: 2,
                 borderStyle: 'inset',
@@ -46,7 +59,7 @@ const Blog = ({user}) => {
                 variant="filled"
                 
             />
-            <br></br>
+                
             <br></br>
 
             <TextField
@@ -57,43 +70,32 @@ const Blog = ({user}) => {
                 defaultValue=" "
                 fullWidth
             />
+            <TextField
+                id="filled-multiline-flexible"
+                label="Añade tus tags"
+                multiline
+                maxRows={1}
+                variant="filled"
+                
+                
+            />
+            
             <Fab color="primary" aria-label="add">
                 <AddIcon />
             </Fab>
+            <br></br>
+            <Fab variant="extended" size="small" color="primary" aria-label="add">
+                <NavigationIcon sx={{ mr: 1 }} />
+                postear!
+            </Fab>
             </Box>
+            </form>
             </div>
-
+            
             <div>
                 {posts != null && posts.map((post) => (<Post post={post}/>))}
                 
-            <Box 
-                display="flex" 
-                flexDirection={"column"} 
-                maxWidth={600} 
-                alignItems ="center" 
-                justifyContent={"center"} 
-                margin="auto" 
-                marginTop={10}
-                padding={10}
-                borderRadius={5}
-                boxShadow={"5px 5px 10px  #ccc"}
-                sx={{":hover": {boxShadow: "15px 15px 30px  #ccc"}}}
-            >
-            <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            </p>
-            <img src=""></img>
-            <Button variant="outlined">comentarios</Button>
-            <TextField
-                id="outlined-multiline-static"
-                label="Comenta"
-                multiline
-                rows={2}
-                defaultValue=" "
-                fullWidth
-            />    
-
-            </Box>
+            
             
             </div>
 
