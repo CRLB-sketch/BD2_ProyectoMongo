@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const isodate = require('isodate')
 
 const Post = require('../models/postModel')
 
@@ -84,10 +85,69 @@ const getPostsInOrder = asyncHandler(async (req, res) => {
     res.status(200).json(posts)
 })
 
+// ! ==================================================================
+// ! AGREGACIONES
+
+// @desc    Agregation of Filter By Keyword
+// @route   POST /api/posts/keyword
+// @access  Private
+const filterByKeyword = asyncHandler(async (req, res) => {
+    const { keyword } = req.body
+
+    if (!keyword) {
+        res.status(400)
+        throw new Error('Keyword was not enter')
+    }
+
+    const results = await Post.aggregate([
+        {
+            $match: {
+                $or: [
+                    { tags: { $regex: keyword, $options: 'i' } },
+                    { content: { $regex: keyword, $options: 'i' } },
+                    { description: { $regex: keyword, $options: 'i' } },
+                ],
+            },
+        },
+    ])
+
+    res.status(200).json(results)
+})
+
+// @desc    Agregation of Filter By One Date
+// @route   POST /api/posts/date
+// @access  Private
+const filterByDate = asyncHandler(async (req, res) => {
+    const { date } = req.body
+
+    if (!date) {
+        res.status(400)
+        throw new Error('Keyword was not enter')
+    }
+
+    // ISODate(`${date}T00:00:00.000Z`),
+    const results = await Post.aggregate([
+        {
+            $match: {
+                date: {
+                    $gte: isodate(`${date}T00:00:00.000Z`),
+                    $lt: isodate(`${date}T23:59:59.999Z`),
+                },
+            },
+        },
+    ])
+
+    res.status(200).json(results)
+})
+
+// ! ==================================================================
+
 module.exports = {
     getAllPosts,
     setPost,
     updatePost,
     deletePost,
     getPostsInOrder,
+    filterByKeyword,
+    filterByDate,
 }

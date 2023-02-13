@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './Blog.css'
 // Import Componentes
 import Post from './components/Post'
-import { Box, Typography, TextField, Button, Fab } from '@mui/material'
+import { Box, TextField, Fab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import NavigationIcon from '@mui/icons-material/Navigation'
 
