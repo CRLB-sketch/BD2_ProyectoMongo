@@ -4,12 +4,19 @@ import React, { useState } from 'react'
 import Login from './pages/Login';
 import Register from './pages/Register'
 import Blog from './pages/Blog'
+import Explore from './pages/Explore'
+import Header from './pages/components/Header'
+
 
 function App() {
 
   const [token, setToken] = useState()
   // ready = -1, login = 0, register = 1
   const [ready, setReady] = useState(0)
+
+  
+  const [page, setPage] = useState("blog")
+  
 
   if(!token){
     return(
@@ -19,11 +26,16 @@ function App() {
       </div>      
     )    
   }
+
   
   return (
 
     <div className="App">
-      <Blog user={token}/>
+      <Header setPage={setPage}/>      
+      {page === "blog" && <Blog user={token}/>}
+      {page === "explorar" && <Explore user={token}/>}
+
+
     </div>
   );
 }

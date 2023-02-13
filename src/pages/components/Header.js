@@ -2,10 +2,12 @@ import React from "react"
 import "./Header.css"
 
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { Box, Avatar, Chip, Button, Fab, } from "@mui/material";
+import {  Avatar, Chip, Button } from "@mui/material";
 
 
-const Header = ({user}) => {
+
+
+const Header = ({user, setPage}) => {
     return(
         <div>
             
@@ -14,9 +16,9 @@ const Header = ({user}) => {
                 
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
                 <Chip avatar={<Avatar>M</Avatar>} label="" />
-                    <Button>Inicio</Button>
-                    <Button>Explorar</Button>
-                    <Button>Salir</Button>
+                    <Button onClick={() => {setPage('blog');}}>Inicio</Button>
+                    <Button onClick={() => {setPage('explorar');}}>Explorar</Button>
+                    <Button onClick={() => {setPage('login');}}>Salir</Button>
                 </ButtonGroup>
                 
             </header>

@@ -27,7 +27,7 @@ const Blog = ({user}) => {
     return(
         
         <div>
-            <Header user={user}/>
+            
             
             <div id="poster">
             <form onSubmit={createPost}>
