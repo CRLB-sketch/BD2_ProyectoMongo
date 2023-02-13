@@ -41,7 +41,7 @@ const Blog = ({ user }) => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/posts/')
+        fetch('http://localhost:8000/api/posts/in-order')
             .then((response) => response.json())
             .then((result) => setPosts(result))
     })

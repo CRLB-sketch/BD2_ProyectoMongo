@@ -2,6 +2,20 @@ const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
 const md5 = require('md5')
 
+// @desc    Get An Specific User
+// @route   GET /api/posts/:id
+// @access  Public
+const getUser = asyncHandler(async (req, res) => {
+    const post = await User.findById(req.params.id)
+
+    if (!post) {
+        res.status(400)
+        throw new Error('User not find')
+    }
+
+    res.status(200).json(post)
+})
+
 // @desc   Create new user
 // @route  POST /api/users/create
 // @access Public
@@ -105,6 +119,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
+    getUser,
     createUser,
     loginUser,
     updateUser,
