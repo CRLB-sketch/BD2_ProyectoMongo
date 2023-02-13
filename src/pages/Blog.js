@@ -6,16 +6,39 @@ import { Box, Typography, TextField, Button, Fab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import NavigationIcon from '@mui/icons-material/Navigation'
 
-const createPost = ({}) => ({})
+const createPost = async (data) => {
+    return fetch('http://localhost:8000/api/posts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            return result
+        })
+        .catch((error) => {
+            return error
+        })
+}
 
 const Blog = ({ user }) => {
     const [posts, setPosts] = useState(null)
     const [newPost, setNewPost] = useState({
         user_name_id: user._id,
-        title: undefined,
-        content: undefined,
-        tags: [],
+        title: '',
+        content: '',
     })
+    const [tag, setTag] = useState([])
+    const [tags, setTags] = useState([])
+
+    const handleNewPostChange = (e) => {
+        setNewPost((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }))
+    }
 
     useEffect(() => {
         fetch('http://localhost:8000/api/posts/')
@@ -23,10 +46,32 @@ const Blog = ({ user }) => {
             .then((result) => setPosts(result))
     })
 
+    const handleSubmitPost = async (event) => {
+        if (event) {
+            event.preventDefault()
+        }
+        const result = await createPost({
+            user_name_id: newPost.user_name_id,
+            title: newPost.title,
+            content: newPost.content,
+            tags: tags,
+        })
+        if (!result.success) {
+            alert('No se creo el post')
+            return
+        }
+        setNewPost({
+            user_name_id: user._id,
+            title: '',
+            content: '',
+        })
+        setTags([])
+    }
+
     return (
         <div>
             <div id="poster">
-                <form onSubmit={createPost}>
+                <form onSubmit={handleSubmitPost}>
                     <Box
                         display="flex"
                         flexDirection={'column'}
@@ -48,6 +93,10 @@ const Blog = ({ user }) => {
                     >
                         <TextField
                             id="filled-multiline-flexible"
+                            type={'text'}
+                            name="title"
+                            value={newPost.title}
+                            onChange={handleNewPostChange}
                             label="Titulo"
                             multiline
                             maxRows={2}
@@ -58,7 +107,11 @@ const Blog = ({ user }) => {
 
                         <TextField
                             id="outlined-multiline-static"
-                            label="Dinos que piensas.."
+                            type={'text'}
+                            name="content"
+                            value={newPost.content}
+                            onChange={handleNewPostChange}
+                            label="Dinos que piensas..."
                             multiline
                             rows={6}
                             defaultValue=" "
@@ -66,6 +119,10 @@ const Blog = ({ user }) => {
                         />
                         <TextField
                             id="filled-multiline-flexible"
+                            type={'text'}
+                            name="content"
+                            value={tag}
+                            onChange={(e) => setTag(e.target.value)}
                             label="Añade tus tags"
                             multiline
                             maxRows={1}
@@ -75,23 +132,22 @@ const Blog = ({ user }) => {
                         <Fab color="primary" aria-label="add">
                             <AddIcon
                                 onClick={() => {
-                                    alert('Agregar tag')
+                                    alert('Agregar siguiente tag: ' + tag)
+                                    const newTag = tag
+                                    setTags((tags) => [...tags, newTag])
+                                    setTag('')
                                 }}
                             />
                         </Fab>
                         <br></br>
                         <Fab
+                            type="submit"
                             variant="extended"
                             size="small"
                             color="primary"
                             aria-label="add"
                         >
-                            <NavigationIcon
-                                sx={{ mr: 1 }}
-                                onClick={() => {
-                                    alert('Agregar post a la bd')
-                                }}
-                            />
+                            <NavigationIcon sx={{ mr: 1 }} />
                             postear!
                         </Fab>
                     </Box>
