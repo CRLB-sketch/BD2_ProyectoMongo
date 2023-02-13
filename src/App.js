@@ -1,31 +1,38 @@
 import './App.css'
 import React, { useState } from 'react'
 // Importar páginas
-import Login from './pages/Login';
+import Login from './pages/Login'
 import Register from './pages/Register'
 import Blog from './pages/Blog'
+import Explore from './pages/Explore'
+import Header from './pages/components/Header'
 
 function App() {
+    const [token, setToken] = useState(null)
+    // ready = -1, login = 0, register = 1
+    const [ready, setReady] = useState(0)
+    const [page, setPage] = useState('blog')
 
-  const [token, setToken] = useState()
-  // ready = -1, login = 0, register = 1
-  const [ready, setReady] = useState(0)
+    if (!token) {
+        return (
+            <div>
+                {ready === 0 && (
+                    <Login setToken={setToken} setReady={setReady} />
+                )}
+                {ready === 1 && (
+                    <Register setToken={setToken} setReady={setReady} />
+                )}
+            </div>
+        )
+    }
 
-  if(!token){
-    return(
-      <div>
-        {ready === 0 && <Login setToken={setToken} setReady={setReady}/>}
-        {ready === 1 && <Register setToken={setToken} setReady={setReady}/>}
-      </div>      
-    )    
-  }
-  
-  return (
-
-    <div className="App">
-      <Blog user={token}/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Header setUser={setToken} setPage={setPage} />
+            {page === 'blog' && <Blog user={token} />}
+            {page === 'explorar' && <Explore user={token} />}
+        </div>
+    )
 }
 
-export default App;
+export default App
