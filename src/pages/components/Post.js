@@ -23,7 +23,9 @@ const Post = ({post}) => {
             <h2>{post.title}</h2>
             <p>{post.content}</p>
             <img src=""></img>
-            <Button variant="outlined">comentarios</Button>
+            <br></br>
+            <br></br>
+
             <TextField
                 id="outlined-multiline-static"
                 label="Comenta"
@@ -32,7 +34,10 @@ const Post = ({post}) => {
                 defaultValue=" "
                 fullWidth
                 padding = "2"
-            />    
+            />   
+            <br></br>
+
+            <Button variant="outlined">comentarios</Button>
 
             </Box>
         </div>
