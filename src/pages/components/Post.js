@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography, TextField, Button, Fab } from '@mui/material'
-import userEvent from '@testing-library/user-event'
+import { Box, TextField, Button } from '@mui/material'
 
 const Post = ({ post }) => {
     const [user, setUser] = useState(null)
@@ -26,6 +25,7 @@ const Post = ({ post }) => {
                 boxShadow={'5px 5px 10px  #ccc'}
                 sx={{ ':hover': { boxShadow: '15px 15px 30px  #ccc' } }}
             >
+                <h4>{`${post.date}`}</h4>
                 <h3>{user !== null && user.user_name}</h3>
                 <h2>{post.title}</h2>
                 <p>{post.content}</p>

@@ -117,6 +117,12 @@ const Blog = ({ user }) => {
                             defaultValue=" "
                             fullWidth
                         />
+
+                        {tags.length !== 0 && <h3>Tags{':'}</h3>}
+                        {tags.map((tag) => (
+                            <p>{tag}</p>
+                        ))}
+
                         <TextField
                             id="filled-multiline-flexible"
                             type={'text'}
@@ -132,7 +138,10 @@ const Blog = ({ user }) => {
                         <Fab color="primary" aria-label="add">
                             <AddIcon
                                 onClick={() => {
-                                    alert('Agregar siguiente tag: ' + tag)
+                                    if (/^\s*$/.test(tag)) {
+                                        alert('El tag esta vacio')
+                                        return
+                                    }
                                     const newTag = tag
                                     setTags((tags) => [...tags, newTag])
                                     setTag('')

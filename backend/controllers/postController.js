@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const isodate = require('isodate')
 
 const Post = require('../models/postModel')
+
+const mongodb = require('mongodb')
 
 // @desc    Get All Posts in DB
 // @route   GET /api/posts
@@ -85,6 +86,18 @@ const getPostsInOrder = asyncHandler(async (req, res) => {
     res.status(200).json(posts)
 })
 
+// @desc    Get Posts of a User
+// @route   GET /api/posts/order
+// @access  Public
+const getPostsOfUser = asyncHandler(async (req, res) => {
+    console.log(req.params.id)
+    const objectId2 = new mongodb.ObjectId(req.params.id)
+    const posts = await Post.find({
+        user_name_id: { $eq: objectId2 },
+    })
+    res.status(200).json(posts)
+})
+
 // ! ==================================================================
 // ! AGREGACIONES
 
@@ -126,12 +139,14 @@ const filterByDate = asyncHandler(async (req, res) => {
     }
 
     // ISODate(`${date}T00:00:00.000Z`),
+    const startDay = new Date(`${date}T00:00:00.000Z`)
+    const endDay = new Date(`${date}T23:59:59.999Z`)
     const results = await Post.aggregate([
         {
             $match: {
                 date: {
-                    $gte: isodate(`${date}T00:00:00.000Z`),
-                    $lt: isodate(`${date}T23:59:59.999Z`),
+                    $gte: startDay,
+                    $lt: endDay,
                 },
             },
         },
@@ -148,6 +163,7 @@ module.exports = {
     updatePost,
     deletePost,
     getPostsInOrder,
+    getPostsOfUser,
     filterByKeyword,
     filterByDate,
 }
