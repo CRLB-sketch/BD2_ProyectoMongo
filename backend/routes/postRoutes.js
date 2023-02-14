@@ -6,6 +6,7 @@ const {
     updatePost,
     deletePost,
     getPostsInOrder,
+    getPostsOfUser,
     filterByKeyword,
     filterByDate,
 } = require('../controllers/postController')
@@ -17,6 +18,7 @@ router.put('/:id', updatePost)
 router.delete('/:id', deletePost)
 
 router.get('/in-order', getPostsInOrder)
+router.get('/posts-user/:id', getPostsOfUser)
 
 // Agregaciones
 router.post('/keyword', filterByKeyword)

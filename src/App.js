@@ -28,7 +28,7 @@ function App() {
 
     return (
         <div className="App">
-            <Header setUser={setToken} setPage={setPage} />
+            <Header user={token} setUser={setToken} setPage={setPage} />
             {page === 'blog' && <Blog user={token} />}
             {page === 'explorar' && <Explore user={token} />}
         </div>
