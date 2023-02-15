@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.css'
-
+import UpdateUser from '../UpdateUser'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import { Avatar, Chip, Button } from '@mui/material'
 
@@ -33,6 +33,14 @@ const Header = ({ user, setUser, setPage }) => {
                         }}
                     >
                         Explorar
+                    </Button>
+
+                    <Button
+                        onClick={() => {
+                            setPage('UpdateUser')
+                        }}
+                    >
+                        Editar usuario
                     </Button>
                     <Button
                         onClick={() => {
