@@ -23,7 +23,7 @@ const addComment = async (post_id, user_comment) => {
         })
 }
 
-const Post = ({ post }) => {
+const Post = ({ user_connected, post }) => {
     const [user, setUser] = useState(null)
     const [comment, setComment] = useState('')
 
@@ -42,9 +42,11 @@ const Post = ({ post }) => {
             alert('Porfavor escriba algo')
             return
         }
-        const result = await addComment(post._id, {
+
+        // alert(user_connected.user_name)
+        const result = addComment(post._id, {
             user_comment: {
-                user_name: user.user_name,
+                user_name: user_connected.user_name,
                 comment: comment,
             },
         })
@@ -53,7 +55,6 @@ const Post = ({ post }) => {
         if (result.acknowledged === false) {
             alert('Ocurrio un error :(')
         }
-        alert('Comentario agregado')
         setComment('')
     }
 

@@ -164,7 +164,10 @@ const Blog = ({ user }) => {
             </div>
 
             <div>
-                {posts != null && posts.map((post) => <Post post={post} />)}
+                {posts != null &&
+                    posts.map((post) => (
+                        <Post user_connected={user} post={post} />
+                    ))}
             </div>
         </div>
     )
