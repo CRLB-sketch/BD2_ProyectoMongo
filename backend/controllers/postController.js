@@ -16,9 +16,9 @@ const getAllPosts = asyncHandler(async (req, res) => {
 // @route   PUT /api/posts/:id
 // @access  Private
 const updatePost = asyncHandler(async (req, res) => {
-    const vet = await Post.findById(req.params.id)
+    const post = await Post.findById(req.params.id)
 
-    if (!vet) {
+    if (!post) {
         res.status(400)
         throw new Error('Post not find')
     }
@@ -87,15 +87,36 @@ const getPostsInOrder = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get Posts of a User
-// @route   GET /api/posts/order
+// @route   GET /api/posts/posts-user/:id_user_name
 // @access  Public
 const getPostsOfUser = asyncHandler(async (req, res) => {
-    console.log(req.params.id)
-    const objectId2 = new mongodb.ObjectId(req.params.id)
+    const id_user = new mongodb.ObjectId(req.params.id)
     const posts = await Post.find({
-        user_name_id: { $eq: objectId2 },
+        user_name_id: { $eq: id_user },
     })
     res.status(200).json(posts)
+})
+
+// @desc    Add New Comment to Post
+// @route   PUT /api/posts/new-comment/:id
+// @access  Private
+const newComment = asyncHandler(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+    const post_id = new mongodb.ObjectId(req.params.id)
+    const { user_comment } = req.body
+
+    if (!user_comment) {
+        res.status(400)
+        throw new Error('User Elements Not Found')
+    }
+
+    console.log(user_comment)
+    const post = await Post.updateOne(
+        { _id: post_id },
+        { $addToSet: { comments: user_comment } }
+    )
+
+    res.status(200).json(post)
 })
 
 // ! ==================================================================
@@ -164,6 +185,7 @@ module.exports = {
     deletePost,
     getPostsInOrder,
     getPostsOfUser,
+    newComment,
     filterByKeyword,
     filterByDate,
 }
