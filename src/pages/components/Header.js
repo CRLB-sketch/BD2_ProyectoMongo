@@ -1,10 +1,48 @@
-import React from "react"
+import React from 'react'
+import './Header.css'
 
-const Header = ({user}) => {
-    return(
+import ButtonGroup from '@mui/material/ButtonGroup'
+import { Avatar, Chip, Button } from '@mui/material'
+
+const Header = ({ user, setUser, setPage }) => {
+    return (
         <div>
-            <h1>Twitortrix</h1>
-            <h2>Bienvenid@: {user.user_name}</h2>
+            <header>
+                <a href="#" class="logo">
+                    Twitortrix
+                </a>
+
+                <ButtonGroup
+                    variant="contained"
+                    aria-label="outlined primary button group"
+                >
+                    <Chip
+                        avatar={<Avatar>{user.user_name.charAt(0)}</Avatar>}
+                        label={user.user_name}
+                    />
+                    <Button
+                        onClick={() => {
+                            setPage('blog')
+                        }}
+                    >
+                        Inicio
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            setPage('explorar')
+                        }}
+                    >
+                        Explorar
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            setUser(null)
+                        }}
+                    >
+                        Salir
+                    </Button>
+                </ButtonGroup>
+            </header>
         </div>
     )
 }
