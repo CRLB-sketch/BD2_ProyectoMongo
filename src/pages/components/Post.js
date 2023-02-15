@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send'
 
 const addComment = async (post_id, user_comment) => {
     return fetch(`http://localhost:8000/api/posts/new-comment/${post_id}`, {
-        method: 'UPDATE',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
