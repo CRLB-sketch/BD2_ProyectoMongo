@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
 const md5 = require('md5')
+const mongodb = require('mongodb')
 
 // @desc    Get An Specific User
 // @route   GET /api/posts/:id
@@ -97,8 +98,9 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(200).json({
         _id: updatedUser.id,
         user_name: updatedUser.user_name,
-        posts: updatedUser.posts,
-        profile_img: updatedUser.profile_img,
+        real_info: updateUser.real_info,
+        sex: updateUser.sex,
+        birthday: updateUser.birthday,
     })
 })
 
@@ -118,10 +120,41 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json({ messsge: 'Usuario borrado' })
 })
 
+// @desc    Update Real Info of User
+// @route   PUT /api/users/real-info/:id
+// @access  Private
+const updateRealInfo = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+        res.status(400)
+        throw new Error('User not find')
+    }
+
+    const user_id = new mongodb.ObjectId(req.params.id)
+    if (!req.body.name) req.body.name = user.real_info.name
+    if (!req.body.lastname) req.body.lastname = user.real_info.lastname
+    if (!req.body.email) req.body.email = user.real_info.email
+
+    await User.updateOne(
+        { _id: user_id },
+        {
+            $set: {
+                'real_info.name': req.body.name,
+                'real_info.lastname': req.body.lastname,
+                'real_info.email': req.body.email,
+            },
+        }
+    )
+
+    res.status(200).json({ success: true })
+})
+
 module.exports = {
     getUser,
     createUser,
     loginUser,
     updateUser,
     deleteUser,
+    updateRealInfo,
 }

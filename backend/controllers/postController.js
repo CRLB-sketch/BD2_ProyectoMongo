@@ -110,7 +110,6 @@ const newComment = asyncHandler(async (req, res) => {
         throw new Error('User Elements Not Found')
     }
 
-    console.log(user_comment)
     const post = await Post.updateOne(
         { _id: post_id },
         { $addToSet: { comments: user_comment } }

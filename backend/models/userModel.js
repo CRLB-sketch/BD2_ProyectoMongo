@@ -10,6 +10,11 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, 'Add password'],
         },
+        real_info: {
+            name: String,
+            lastname: String,
+            email: String,
+        },
         sex: {
             type: String,
             required: [true, 'Add Sex'],
