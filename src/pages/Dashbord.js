@@ -1,10 +1,10 @@
 import React from 'react';
-import Visualization from './pages/components/TableauViz'
+import TableuViz from '../pages/components/TableuViz'
 
 const Dashbord = () => {
     return (
         <div>
-            <Visualization/>
+            <TableuViz/>
         </div>
     );
 }

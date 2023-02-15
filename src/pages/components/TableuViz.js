@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 
-const TableauViz = () => {
+const TableuViz = () => {
   const vizContainer = useRef(null);
 
   useEffect(() => {
-    const vizUrl = 'https://YOUR_TABLEAU_SERVER/views/YOUR_VIZ_NAME';
+    const vizUrl = 'https://public.tableau.com/app/profile/elean1541/viz/Twitortrix/Sheet1';
     const options = {
       hideTabs: true,
       width: '100%',
@@ -18,4 +18,4 @@ const TableauViz = () => {
   );
 };
 
-export default TableauViz;
+export default TableuViz;

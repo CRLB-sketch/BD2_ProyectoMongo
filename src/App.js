@@ -7,6 +7,7 @@ import Blog from './pages/Blog'
 import Explore from './pages/Explore'
 import Header from './pages/components/Header'
 import UpdateUser from './pages/UpdateUser'
+import Dashbord from './pages/Dashbord'
 
 function App() {
     const [token, setToken] = useState(null)
@@ -33,6 +34,7 @@ function App() {
             {page === 'blog' && <Blog user={token} />}
             {page === 'explorar' && <Explore user={token} />}
             {page === 'UpdateUser' && <UpdateUser user={token} />}
+            {page === 'Dashboard' && <Dashbord user={token} />}
             
         </div>
     )

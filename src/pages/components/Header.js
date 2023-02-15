@@ -42,6 +42,14 @@ const Header = ({ user, setUser, setPage }) => {
                     >
                         Editar usuario
                     </Button>
+
+                    <Button
+                        onClick={() => {
+                            setPage('dashboard')
+                        }}
+                    >
+                        Dashboard
+                    </Button>
                     <Button
                         onClick={() => {
                             setUser(null)
