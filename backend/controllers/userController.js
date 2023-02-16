@@ -4,17 +4,17 @@ const md5 = require('md5')
 const mongodb = require('mongodb')
 
 // @desc    Get An Specific User
-// @route   GET /api/posts/:id
+// @route   GET /api/users/:id
 // @access  Public
 const getUser = asyncHandler(async (req, res) => {
-    const post = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id)
 
-    if (!post) {
+    if (!user) {
         res.status(400)
         throw new Error('User not find')
     }
 
-    res.status(200).json(post)
+    res.status(200).json(user)
 })
 
 // @desc   Create new user
@@ -105,7 +105,7 @@ const updateUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Delete user
-// @route   DELETE /api/users:id
+// @route   DELETE /api/users/:id
 // @access  Private
 const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id)
@@ -150,6 +150,26 @@ const updateRealInfo = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true })
 })
 
+// @desc    Get An Specific User
+// @route   GET /api/users/proyection/:id
+// @access  Public
+const userProyection = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id, {
+        user_name: 1,
+        'real_info.name': 1,
+    })
+
+    if (!user) {
+        res.status(400)
+        throw new Error('User not find')
+    }
+
+    // const user_id = new mongodb.ObjectId(req.params.id)
+    // const result = User.find({ _id: user_id }, { user_name: 1 })
+
+    res.status(200).json(user)
+})
+
 module.exports = {
     getUser,
     createUser,
@@ -157,4 +177,5 @@ module.exports = {
     updateUser,
     deleteUser,
     updateRealInfo,
+    userProyection,
 }

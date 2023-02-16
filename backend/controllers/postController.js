@@ -8,7 +8,7 @@ const mongodb = require('mongodb')
 // @route   GET /api/posts
 // @access  Public
 const getAllPosts = asyncHandler(async (req, res) => {
-    const posts = await Post.find()
+    const posts = await Post.find().limit(2)
     res.status(200).json(posts)
 })
 
