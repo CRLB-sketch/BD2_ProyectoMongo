@@ -8,6 +8,7 @@ const {
     deleteUser,
     updateRealInfo,
     userProyection,
+    bulkUsers,
 } = require('../controllers/userController')
 
 // Define Routes for User
@@ -18,5 +19,6 @@ router.put('/:id', updateUser)
 router.delete('/:id', deleteUser)
 router.put('/real-info/:id', updateRealInfo)
 router.get('/proyection/:id', userProyection)
+router.post('/bulk', bulkUsers)
 
 module.exports = router

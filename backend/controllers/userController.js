@@ -170,6 +170,21 @@ const userProyection = asyncHandler(async (req, res) => {
     res.status(200).json(user)
 })
 
+// @desc   Bulf for users
+// @route  POST /api/users/bulk
+// @access Public
+const bulkUsers = asyncHandler(async (req, res) => {
+    const { array_data } = req.body
+    array_data.map((element) => console.log(element))
+    const results = await User.bulkWrite(
+        array_data.map((element) => ({
+            insertOne: { document: element },
+            upsert: true,
+        }))
+    )
+    res.status(200).json(results)
+})
+
 module.exports = {
     getUser,
     createUser,
@@ -178,4 +193,5 @@ module.exports = {
     deleteUser,
     updateRealInfo,
     userProyection,
+    bulkUsers,
 }
